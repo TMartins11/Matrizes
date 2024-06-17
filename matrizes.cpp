@@ -39,7 +39,7 @@ void preencherMatriz(int tam1, int tam2, int mat1[][100], int mat2[][100]) {
     cout << endl << "Insira os valores da 1º Matriz" << endl;
     for (int i = 0; i < tam1; i++) {
         for (int j = 0; j < tam2; j++) {
-            cout << "Insira o elemento da posição [" << i << "] [" << j << "]: ";
+            cout << "Insira o elemento da posição [" << i + 1 << "] [" << j + 1 << "]: ";
             cin >> mat1[i][j];
         }
     }
@@ -100,14 +100,18 @@ void somamatrizes(int tam1, int tam2, int mat1[][100], int mat2[][100], int mat3
 }
 
 // Implementada Função para transposição de matrizes
-void transpormatrizes(int tam1, int tam2, int mat1[][100], int mat2[][100], int mat3[][100], int mat_transp[][100]){
-    int i, j, optransposta;
+void transpormatrizes(int tam1, int tam2, int mat1[][100], int mat2[][100], int mat_transp[][100]){
+    int i, j, optransposta, aux;
 
     cout << endl << "Selecione a Matriz que você deseja transpor:";
-    cout << endl << "1º Matriz" << endl << "2º Matriz" << endl << "3º Matriz" << endl;
+    cout << endl << "1º Matriz" << endl << "2º Matriz" << endl;
     cout << endl << "Escolha a Matriz desejada: ";
     cin >> optransposta;
-
+    while(optransposta > 2 || optransposta <= 0){
+        cout << endl << "Matriz Invalida!!! Insira novamente: ";
+        cin >> optransposta;
+    }
+    
     switch(optransposta){
         case 1:
             for(i = 0; i < tam1; i++){
@@ -123,20 +127,14 @@ void transpormatrizes(int tam1, int tam2, int mat1[][100], int mat2[][100], int 
                 }
             }
             break;
-        case 3:
-            for(i = 0; i < tam1; i++){
-                for(j = 0; j < tam2; j++){
-                    mat_transp[i][j] = mat3[i][j];
-                }
-            }
     }
 
     for(i = 0; i < tam1; i++){
         for(j = 0; j < tam2; j++){
             if(i > j){
-                mat_transp[i][j] = mat_transp[j][i]; 
-            }else if( j > i){
-                mat_transp[j][i] = mat_transp[i][j];
+                aux = mat_transp[i][j];
+                mat_transp[i][j] = mat_transp[j][i];
+                mat_transp[j][i] = aux;
             }
         }
     }
@@ -153,6 +151,29 @@ void transpormatrizes(int tam1, int tam2, int mat1[][100], int mat2[][100], int 
         }
         cout << ")" << endl;
     }
+}
+
+// Implementada Função para Multiplicar as Matrizes
+void multiplicarmatriz(int tam1, int tam2, int mat1[][100], int mat2[][100], int mat_mul[100][100]){
+    int i, j;
+
+    for(i = 0; i < tam1; i++){
+        for(j = 0; j < tam2; j++){
+            mat_mul[i][j] = mat1[i][j] * mat2[j][i];
+        }
+    }
+
+    for(i = 0; i < tam1; i++){
+        cout << "(";
+        for(j = 0; j < tam2; j++){
+            if( j != 0){
+                cout << " ";
+            }
+            cout << mat_mul[i][j];
+        }
+        cout << ")" << endl;
+    }
+
 }
 
 int main() {
@@ -189,6 +210,7 @@ int main() {
 
     int mat3[100][100];
     int mat_transp[100][100];
+    int mat_mul[100][100];
     int opcao2;
     cout << endl << "Selecione a Operação que você deseja realizar com as Matrizes:" << endl;
     cout << endl << "1 - Transposição de Matrizes" << endl << "2 - Soma de Matrizes" << endl << "3 - Multiplicação de Matrizes" << endl << "4 - Média dos valores da primeira Matriz" << endl;
@@ -200,18 +222,33 @@ int main() {
         cin >> opcao2;
     }
 
-    switch(opcao2){
-        case 1:
-            transpormatrizes(tam1, tam2, mat1, mat2, mat3, mat_transp);
-            break;
-        case 2:
-            somamatrizes(tam1, tam2, mat1, mat2, mat3);
-            break;
-        case 3:
-            break;
-        case 4: 
-            break;
+    while(opcao2 != 5){
+        switch(opcao2){
+            case 1:
+                transpormatrizes(tam1, tam2, mat1, mat2, mat_transp);
+                break;
+            case 2:
+                somamatrizes(tam1, tam2, mat1, mat2, mat3);
+                break;
+            case 3:
+                multiplicarmatriz(tam1, tam2, mat1, mat2, mat_mul);
+                break;
+            case 4: 
+                break;
+        }
+        cout << endl << "Selecione a Operação que você deseja realizar com as Matrizes:" << endl;
+        cout << endl << "1 - Transposição de Matrizes" << endl << "2 - Soma de Matrizes" << endl << "3 - Multiplicação de Matrizes" << endl << "4 - Média dos valores da primeira Matriz" << endl << "5 - Sair" << endl;
+
+        cout << endl << "Escolha a opção desejada: ";
+        cin >> opcao2;
+        while(opcao2 < 1 || opcao2 > 5){
+            cout << endl << "Opção Inválida!!! Escolha novamente: ";
+            cin >> opcao2;
+        }
     }
+
+    cout << endl << "Obrigado por Utilizar o programa!" << endl;
+    cout << endl << "Encerrando...";
 
     return 0;
 }
